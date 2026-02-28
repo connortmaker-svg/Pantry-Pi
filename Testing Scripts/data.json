@@ -6,7 +6,7 @@
     },
     "0077890204023": {
         "name": "Cranberry Sauce",
-        "price": 1.50,
-        "stock": 20
+        "price": "4",
+        "stock": "10"
     }
 }
