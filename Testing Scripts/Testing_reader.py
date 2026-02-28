@@ -1,18 +1,3 @@
-# inventory = {
-#     "0613008756451": {
-#         "name": "Arizona Iced Tea",
-#         "price": 0.99,
-#         "size": "23oz",
-#         "stock": 50
-#     },
-#     "0077890204023": {
-#         "name": "Cranberry Sauce",
-#         "price": 3.49,
-#         "size": "9.25oz",
-#         "stock": 12
-#     }
-# }
-
 import json
 
 try:
