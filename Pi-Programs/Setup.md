@@ -34,6 +34,20 @@ The Pi 5 requires specific configuration to enable the GPIO serial pins.
    ```
 6. Reboot the Pi.
 
+### Testing the Scanner
+
+To verify your wiring and configuration are correct, you can use the provided `scanner.py` script.
+
+1. Install the required Python library:
+   ```bash
+   pip install pyserial
+   ```
+2. Run the test script:
+   ```bash
+   python scanner.py
+   ```
+3. Scan a barcode. If successful, you should see the scanned data printed in the terminal.
+
 ## 3. Wireless Connection to PC (Bluetooth)
 
 To send scanner data wirelessly to a PC without a Wi-Fi router, you can configure the Pi as a Bluetooth "Server," making it appear as a wireless COM port to the remote PC.
@@ -69,3 +83,43 @@ Edit the Bluetooth service to enable the Serial Port Profile (SPP).
 ### Implementation
 
 Use the Python `socket` library in your scanning script to transmit the parsed UART data to the PC via Bluetooth RFCOMM.
+
+## 4. Screen Setup (GUI)
+
+The Python GUI application (`gui.py`) is built using `customtkinter` and is designed to display the scanned output locally on a 400x300 touchscreen or HDMI display connected to the Pi.
+
+1. Install the CustomTkinter UI library:
+   ```bash
+   pip install customtkinter
+   ```
+2. If you are running the script over SSH and getting display errors, you must export the display variable so the GUI appears on the screen physically connected to the Pi:
+   ```bash
+   export DISPLAY=:0
+   ```
+
+## 5. PM2 Service Setup
+
+To keep the application running continuously in the background and ensure it automatically restarts on boot or in case of a crash, you should set it up using the Node.js PM2 process manager.
+
+1. Install Node.js & npm (if not already installed):
+   ```bash
+   sudo apt update
+   sudo apt install nodejs npm -y
+   ```
+2. Install PM2 globally:
+   ```bash
+   sudo npm install pm2 -g
+   ```
+3. Start the GUI script via PM2 (run this inside the `Pi-Programs` directory):
+   ```bash
+   pm2 start gui.py --name "pantry-scanner" --interpreter python3
+   ```
+4. Save the PM2 process list so it respawns on reboot:
+   ```bash
+   pm2 save
+   ```
+5. Configure PM2 to start automatically on system boot:
+   ```bash
+   pm2 startup
+   ```
+   *(Running this command will output another command that you must copy and paste into your terminal to finalize the startup configuration.)*
