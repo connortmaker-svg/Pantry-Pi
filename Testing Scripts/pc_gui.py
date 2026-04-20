@@ -31,17 +31,63 @@ ctk.set_default_color_theme("blue")
 
 app = ctk.CTk()
 app.title("Pantry-Pi PC GUI Test")
-app.geometry("500x700")
+app.geometry("480x320")
 
+app.grid_rowconfigure(0, weight=1)
+app.grid_columnconfigure(0, weight=1)
+
+# --- Frames ---
+menu_frame = ctk.CTkFrame(app, fg_color="transparent")
+inventory_frame = ctk.CTkFrame(app, fg_color="transparent")
+order_frame = ctk.CTkFrame(app, fg_color="transparent")
+audit_frame = ctk.CTkFrame(app, fg_color="transparent")
+
+def show_frame(frame):
+    menu_frame.grid_forget()
+    inventory_frame.grid_forget()
+    order_frame.grid_forget()
+    audit_frame.grid_forget()
+    frame.grid(row=0, column=0, sticky="nsew")
+
+# --- Menu Frame ---
+menu_title = ctk.CTkLabel(menu_frame, text="Pantry-Pi", font=("Arial", 28, "bold"))
+menu_title.pack(pady=(20, 10))
+
+btn_order = ctk.CTkButton(menu_frame, text="Order Picking", font=("Arial", 16), command=lambda: show_frame(order_frame))
+btn_order.pack(pady=10)
+
+btn_inv = ctk.CTkButton(menu_frame, text="Inventory Management", font=("Arial", 16), command=lambda: show_frame(inventory_frame))
+btn_inv.pack(pady=10)
+
+btn_audit = ctk.CTkButton(menu_frame, text="Audits", font=("Arial", 16), command=lambda: show_frame(audit_frame))
+btn_audit.pack(pady=10)
+
+btn_exit_menu = ctk.CTkButton(menu_frame, text="Exit", font=("Arial", 16), fg_color="red", hover_color="darkred", command=app.destroy)
+btn_exit_menu.pack(pady=20)
+
+# --- Order Picking Frame ---
+order_title = ctk.CTkLabel(order_frame, text="Order Picking", font=("Arial", 30, "bold"))
+order_title.pack(expand=True)
+order_nav = ctk.CTkFrame(order_frame, fg_color="transparent")
+order_nav.pack(pady=20)
+ctk.CTkButton(order_nav, text="Back to Menu", command=lambda: show_frame(menu_frame)).pack(side="left", padx=10)
+ctk.CTkButton(order_nav, text="Exit", fg_color="red", hover_color="darkred", command=app.destroy).pack(side="right", padx=10)
+
+# --- Audits Frame ---
+audit_title = ctk.CTkLabel(audit_frame, text="Audits", font=("Arial", 30, "bold"))
+audit_title.pack(expand=True)
+audit_nav = ctk.CTkFrame(audit_frame, fg_color="transparent")
+audit_nav.pack(pady=20)
+ctk.CTkButton(audit_nav, text="Back to Menu", command=lambda: show_frame(menu_frame)).pack(side="left", padx=10)
+ctk.CTkButton(audit_nav, text="Exit", fg_color="red", hover_color="darkred", command=app.destroy).pack(side="right", padx=10)
+
+# --- Inventory Management Frame ---
 scanner_status = "Status: USB Scanner Active (Ready to Scan)"
 
-title_label = ctk.CTkLabel(app, text="Last Scanned Item: ", font=("Arial", 24, "bold"))
-title_label.pack(pady=(20,5))
-
-readout_label = ctk.CTkLabel(app, text="Waiting...", font=("Arial", 40, "bold"), text_color="#00FF00")
+readout_label = ctk.CTkLabel(inventory_frame, text="Waiting", font=("Arial", 40, "bold"), text_color="#00FF00")
 readout_label.pack(pady=5)
 
-info_frame = ctk.CTkFrame(app)
+info_frame = ctk.CTkFrame(inventory_frame)
 info_frame.pack(pady=10, padx=20, fill="x")
 
 # --- Grid for Displaying Information ---
@@ -69,7 +115,7 @@ location_label.grid(row=3, column=0, columnspan=2, sticky="w", padx=10, pady=2)
 # Make columns expand evenly
 info_frame.grid_columnconfigure((0, 1), weight=1)
 
-status_label = ctk.CTkLabel(app, text=scanner_status, font=("Arial", 14), text_color="gray")
+status_label = ctk.CTkLabel(inventory_frame, text=scanner_status, font=("Arial", 14), text_color="gray")
 status_label.pack(pady=(5, 5))
 
 # --- USB Scanner Logic ---
@@ -116,6 +162,8 @@ def process_barcode(barcode):
 
 def on_key(event):
     global barcode_buffer
+    if not inventory_frame.winfo_ismapped():
+        return
     if event.keysym in ('Return', 'KP_Enter'):
         process_barcode(barcode_buffer)
         barcode_buffer = ""
@@ -363,9 +411,18 @@ def prompt_add_item(barcode):
 def close_app():
     app.destroy()
 
-# Exit Button
-exit_button = ctk.CTkButton(app, text="Exit", command=close_app, fg_color="red", hover_color="darkred")
-exit_button.pack(pady=10)
+# Navigation frame for Inventory Management
+nav_frame = ctk.CTkFrame(inventory_frame, fg_color="transparent")
+nav_frame.pack(pady=10)
+
+btn_back_inv = ctk.CTkButton(nav_frame, text="Back to Menu", command=lambda: show_frame(menu_frame))
+btn_back_inv.pack(side="left", padx=10)
+
+exit_button = ctk.CTkButton(nav_frame, text="Exit", command=close_app, fg_color="red", hover_color="darkred")
+exit_button.pack(side="right", padx=10)
+
+# Initialize starting frame
+show_frame(menu_frame)
 
 app.focus_force() # Ensure window is focused so scanner keystrokes are caught
 # Run the app
