@@ -3,7 +3,7 @@ import json
 import os
 
 # --- Data Handling ---
-FILE_PATH = 'Testing Scripts/data.json'
+FILE_PATH = 'Database/inventory.json'
 
 def load_data():
     try:
@@ -30,7 +30,7 @@ ctk.set_default_color_theme("blue")
 
 app = ctk.CTk()
 app.title("Pantry-Pi PC GUI Test")
-app.geometry("500x400")
+app.geometry("500x550")
 
 scanner_status = "Status: USB Scanner Active (Ready to Scan)"
 
@@ -43,20 +43,28 @@ readout_label.pack(pady=5)
 info_frame = ctk.CTkFrame(app)
 info_frame.pack(pady=10, padx=20, fill="x")
 
-name_label = ctk.CTkLabel(info_frame, text="Name: -", font=("Arial", 18))
-name_label.pack(anchor="w", padx=10, pady=5)
+top_class_label = ctk.CTkLabel(info_frame, text="Top Level Class: -", font=("Arial", 16))
+top_class_label.pack(anchor="w", padx=10, pady=2)
 
-price_label = ctk.CTkLabel(info_frame, text="Price: -", font=("Arial", 18))
-price_label.pack(anchor="w", padx=10, pady=5)
+sec_class_label = ctk.CTkLabel(info_frame, text="Second Level Class: -", font=("Arial", 16))
+sec_class_label.pack(anchor="w", padx=10, pady=2)
 
-stock_label = ctk.CTkLabel(info_frame, text="Stock: -", font=("Arial", 18))
-stock_label.pack(anchor="w", padx=10, pady=5)
+item_name_label = ctk.CTkLabel(info_frame, text="Item Name: -", font=("Arial", 16))
+item_name_label.pack(anchor="w", padx=10, pady=2)
+
+temp_class_label = ctk.CTkLabel(info_frame, text="Temp Class: -", font=("Arial", 16))
+temp_class_label.pack(anchor="w", padx=10, pady=2)
+
+weight_class_label = ctk.CTkLabel(info_frame, text="Weight Class: -", font=("Arial", 16))
+weight_class_label.pack(anchor="w", padx=10, pady=2)
+
+qty_label = ctk.CTkLabel(info_frame, text="Total Qty: -", font=("Arial", 16))
+qty_label.pack(anchor="w", padx=10, pady=2)
 
 status_label = ctk.CTkLabel(app, text=scanner_status, font=("Arial", 14), text_color="gray")
 status_label.pack(pady=(5, 5))
 
 # --- USB Scanner Logic ---
-# USB scanners act as keyboards. They type characters quickly and hit Enter.
 barcode_buffer = ""
 
 def process_barcode(barcode):
@@ -68,14 +76,20 @@ def process_barcode(barcode):
     
     if barcode in inventory:
         item = inventory[barcode]
-        name_label.configure(text=f"Name: {item.get('name', 'N/A')}")
-        price_label.configure(text=f"Price: ${item.get('price', 'N/A')}")
-        stock_label.configure(text=f"Stock: {item.get('stock', 'N/A')}")
+        top_class_label.configure(text=f"Top Level Class: {item.get('top_level_class', 'N/A')}")
+        sec_class_label.configure(text=f"Second Level Class: {item.get('second_level_class', 'N/A')}")
+        item_name_label.configure(text=f"Item Name: {item.get('item_name', 'N/A')}")
+        temp_class_label.configure(text=f"Temp Class: {item.get('temp_class', 'N/A')}")
+        weight_class_label.configure(text=f"Weight Class: {item.get('weight_class', 'N/A')}")
+        qty_label.configure(text=f"Total Qty: {item.get('total_qty', 'N/A')}")
         status_label.configure(text=f"Status: Item Found", text_color="#00FF00")
     else:
-        name_label.configure(text="Name: -")
-        price_label.configure(text="Price: -")
-        stock_label.configure(text="Stock: -")
+        top_class_label.configure(text="Top Level Class: -")
+        sec_class_label.configure(text="Second Level Class: -")
+        item_name_label.configure(text="Item Name: -")
+        temp_class_label.configure(text="Temp Class: -")
+        weight_class_label.configure(text="Weight Class: -")
+        qty_label.configure(text="Total Qty: -")
         status_label.configure(text=f"Status: Item Not Found. Add it below.", text_color="red")
         prompt_add_item(barcode)
 
@@ -93,37 +107,55 @@ app.bind("<Key>", on_key)
 def prompt_add_item(barcode):
     popup = ctk.CTkToplevel(app)
     popup.title("Add New Product")
-    popup.geometry("300x300")
+    popup.geometry("350x450")
     popup.transient(app)
     popup.grab_set() # Focus on popup
     
     ctk.CTkLabel(popup, text=f"Adding Barcode:\n{barcode}", font=("Arial", 16, "bold")).pack(pady=10)
     
-    name_entry = ctk.CTkEntry(popup, placeholder_text="Item Name")
-    name_entry.pack(pady=5)
+    top_class_entry = ctk.CTkEntry(popup, placeholder_text="Top Level Class", width=250)
+    top_class_entry.pack(pady=5)
     
-    price_entry = ctk.CTkEntry(popup, placeholder_text="Price")
-    price_entry.pack(pady=5)
+    sec_class_entry = ctk.CTkEntry(popup, placeholder_text="Second Level Class", width=250)
+    sec_class_entry.pack(pady=5)
+
+    item_name_entry = ctk.CTkEntry(popup, placeholder_text="Item Specific Name", width=250)
+    item_name_entry.pack(pady=5)
+
+    temp_class_entry = ctk.CTkEntry(popup, placeholder_text="Temp Class", width=250)
+    temp_class_entry.pack(pady=5)
+
+    weight_class_entry = ctk.CTkEntry(popup, placeholder_text="Weight Class", width=250)
+    weight_class_entry.pack(pady=5)
     
-    qty_entry = ctk.CTkEntry(popup, placeholder_text="Quantity")
+    qty_entry = ctk.CTkEntry(popup, placeholder_text="Total Quantity", width=250)
     qty_entry.pack(pady=5)
     
     def save_new():
-        name = name_entry.get().strip()
-        price = price_entry.get().strip()
+        top_c = top_class_entry.get().strip()
+        sec_c = sec_class_entry.get().strip()
+        name = item_name_entry.get().strip()
+        temp_c = temp_class_entry.get().strip()
+        weight_c = weight_class_entry.get().strip()
         qty = qty_entry.get().strip()
         
         inventory[barcode] = {
-            "name" : name,
-            "price" : price,
-            "stock" : qty
+            "top_level_class": top_c,
+            "second_level_class": sec_c,
+            "item_name": name,
+            "temp_class": temp_c,
+            "weight_class": weight_c,
+            "total_qty": qty
         }
         save_data(inventory)
         
         # Update UI
-        name_label.configure(text=f"Name: {name}")
-        price_label.configure(text=f"Price: ${price}")
-        stock_label.configure(text=f"Stock: {qty}")
+        top_class_label.configure(text=f"Top Level Class: {top_c}")
+        sec_class_label.configure(text=f"Second Level Class: {sec_c}")
+        item_name_label.configure(text=f"Item Name: {name}")
+        temp_class_label.configure(text=f"Temp Class: {temp_c}")
+        weight_class_label.configure(text=f"Weight Class: {weight_c}")
+        qty_label.configure(text=f"Total Qty: {qty}")
         status_label.configure(text="Status: Item Saved into Inventory", text_color="#00FF00")
         
         popup.destroy()
