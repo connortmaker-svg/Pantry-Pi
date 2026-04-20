@@ -1,10 +1,56 @@
 {
+    "4099100003871": {
+        "top_level_class": "Miscellaneous Foods",
+        "second_level_class": "Canned Soups/Meal",
+        "item_name": "Cream of Chicken Soup",
+        "temp_class": "shelf goods",
+        "weight_class": "10.5",
+        "total_qty": "1",
+        "location": "A-02-05"
+    },
+    "051000000118": {
+        "top_level_class": "Miscellaneous Foods",
+        "second_level_class": "Canned Soups/Meal",
+        "item_name": "Campbells Tomato Soup",
+        "temp_class": "shelf goods",
+        "weight_class": "10.75",
+        "total_qty": "2",
+        "location": "A-02-04"
+    },
+    "071541993809": {
+        "top_level_class": "Miscellaneous Foods",
+        "second_level_class": "Canned Soups/Meal",
+        "item_name": "Cream of Mushroom",
+        "temp_class": "shelf goods",
+        "weight_class": "10.5",
+        "total_qty": "1",
+        "location": "A-02-03"
+    },
+    "071846784157": {
+        "top_level_class": "Miscellaneous Foods",
+        "second_level_class": "Canned Soups/Meal",
+        "item_name": "Beef Stew",
+        "temp_class": "shelf goods",
+        "weight_class": "15",
+        "total_qty": "1",
+        "location": "A-01-02"
+    },
+    "4099100126723": {
+        "top_level_class": "Protein",
+        "second_level_class": "Black Beans",
+        "item_name": "Refried Beans",
+        "temp_class": "shelf goods",
+        "weight_class": "16",
+        "total_qty": "1",
+        "location": "A-01-03"
+    },
     "077890204023": {
         "top_level_class": "Miscellaneous Foods",
         "second_level_class": "Jelly",
+        "item_name": "Jellied Cranberry Sauce",
         "temp_class": "shelf goods",
-        "item_name": "Wegmans Jellied Cranberry Sauce",
         "weight_class": "14",
-        "total_qty": "1"
+        "total_qty": "3",
+        "location": "A-02-02"
     }
 }
