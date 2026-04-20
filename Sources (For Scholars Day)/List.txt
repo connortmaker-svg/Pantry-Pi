@@ -1,0 +1,4 @@
+https://docs.micropython.org/en/latest/esp32/tutorial/intro.html  [ For Micropython with the esp32]
+
+https://micropython.org/download/ESP32_GENERIC/ [For ESP32 stuffz]
+
