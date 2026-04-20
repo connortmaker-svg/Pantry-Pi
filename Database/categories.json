@@ -1,0 +1,59 @@
+{
+    "Protein": [
+        "Tuna",
+        "Chicken (Canned/Frozen)",
+        "Turkey (Deli Meat)",
+        "Ham (Deli Meat)",
+        "Ground Beef",
+        "Hummus/Garbanzo Beans",
+        "Black Beans",
+        "Red Beans",
+        "Peanut Butter",
+        "Vegan Patty"
+    ],
+    "Vegetables": [
+        "Corn",
+        "Peas",
+        "Carrots",
+        "Tomatoes",
+        "Potatoes"
+    ],
+    "Fruits": [
+        "Apples",
+        "Apple Sauce",
+        "Canned Pears & Peaches",
+        "Mixed Fruit Cups"
+    ],
+    "Dairy": [
+        "Eggs",
+        "Cheese",
+        "Milk (Dairy)",
+        "Milk (Non-Dairy)",
+        "Yogurt"
+    ],
+    "Grain": [
+        "Bread",
+        "Pasta",
+        "Rice",
+        "Cereal",
+        "Tortillas"
+    ],
+    "Miscellaneous Foods": [
+        "Jelly",
+        "Pasta Sauce",
+        "Mac & Cheese",
+        "Canned Soups/Meal"
+    ],
+    "Toiletries": [
+        "Tooth Brush",
+        "Tooth Paste",
+        "Toilet Paper",
+        "Hand Soap",
+        "Deodorant",
+        "Feminine Hygiene Products",
+        "Shampoo",
+        "Conditioner",
+        "Dish Soap",
+        "Detergent"
+    ]
+}
